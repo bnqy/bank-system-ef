@@ -1,0 +1,1 @@
+namespace BankSystem.DAL.Entities;
