@@ -235,7 +235,7 @@ WithdrawRewardPoints = max(「(Balance / GoldBalanceCostPerPoint)⌉ + 「(Depos
 ```
 
 Here:
-- `「 x ⌉` rounding a number up to the nearest whole number (see [Decimal.Ceiling(Decimal) Method](https://learn.microsoft.com/en-us/dotnet/api/system.decimal.ceiling);
+- `「 x ⌉` rounding a number up to the nearest whole number (see [Decimal.Ceiling(Decimal) Method](https://learn.microsoft.com/en-us/dotnet/api/system.decimal.ceiling));
 - `max(x, y)` gives the maximum of `x` and `y`.
 
 ### 7. IUniqueNumberGenerator Interface
