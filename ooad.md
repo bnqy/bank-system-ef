@@ -161,7 +161,7 @@ The `SilverAccount` class declares the following constants that determine the re
 
 - `SilverDepositCostPerPoint = 5`
 - `SilverWithdrawCostPerPoint = 2`
-- `SilverBalanceCostPerPoint = 10`
+- `SilverBalanceCostPerPoint = 100`
 
 #### Constructors
 
@@ -203,9 +203,9 @@ Here:
 
 The `GoldAccount` class declares the following constants that determine the reward point calculation:
 
-- `GoldDepositCostPerPoint = 5`
-- `GoldWithdrawCostPerPoint = 2`
-- `GoldBalanceCostPerPoint = 10`
+- `GoldDepositCostPerPoint = 10`
+- `GoldWithdrawCostPerPoint = 5`
+- `GoldBalanceCostPerPoint = 5`
 
 #### Constructors
 
