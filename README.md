@@ -2,7 +2,7 @@
 
 Intermediate level task for practicing 
 
-- object-oriented design
+- Object-Oriented Design
 
 - Entity Framework model configuration and LINQ-to-SQL queries
 
