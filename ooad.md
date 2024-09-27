@@ -1,6 +1,6 @@
 # Bank Account System (OOAD)
 
-Intermediate level task for practicing object-oriented analysis and desig.
+Intermediate level task for practicing object-oriented analysis and design.
 
 _Estimated time to complete the task - 4h._
 
@@ -295,3 +295,21 @@ The `CryptoHelper` class is a static helper class that provides a method for gen
 #### Method
 
 - `GenerateHash(string input)` extension method generates an MD5 hash from an input string using the ASCII representation of the input. It returns the hashed string as output.
+
+### Note
+
+Please note that [Bank Account](https://autocode.git.epam.com/dotnet-tasks/oop/net8/bank-account/-/tree/main/BankSystem) Visual Studio project contains only class files and does not contain classes code. Therefore, we recommend starting with adding all the necessary types and their methods, using for these methods "stubs" like these
+
+```
+public sealed class AccountOwner
+{
+    public AccountOwner(string? firstName, string? lastName, string? email)
+    {
+        throw new NotImplementedException();
+    }
+
+    . . . 
+}
+```
+
+and only then moving to a more detailed implementation that satisfies all the test requirements.
