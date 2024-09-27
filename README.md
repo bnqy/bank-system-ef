@@ -2,9 +2,9 @@
 
 Intermediate level task for practicing 
 
-- Object-Oriented Design
+- Object-Oriented Analysis and Design
 
-- Entity Framework model configuration and LINQ-to-SQL queries
+- Entity Framework Core Framework
 
 _Estimated time to complete the task - 6h._
 
