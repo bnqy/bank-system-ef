@@ -1,6 +1,6 @@
 # Bank Account System (OOAD)
 
-Intermediate level task for practicing object-oriented design.
+Intermediate level task for practicing object-oriented analysis and desig.
 
 _Estimated time to complete the task - 4h._
 
