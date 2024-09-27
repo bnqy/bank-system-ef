@@ -146,7 +146,7 @@ WithdrawRewardPoints = max(⌊(Balance / StandardBalanceCostPerPoint)」, 0)
 ```
 
 Here:
-- `⌊ x 」` rounding a number down to the nearest integer (see [Decimal.Floor(Decimal) Method](https://learn.microsoft.com/en-us/dotnet/api/system.decimal.floor));
+- `⌊ x 」` rounding a specified `Decimal` number to the closest integer toward negative infinity (see [Decimal.Floor(Decimal) Method](https://learn.microsoft.com/en-us/dotnet/api/system.decimal.floor));
 - `max(x, y)` gives the maximum of `x` and `y`.
 
 ### 5. SilverAccount Class
@@ -189,7 +189,7 @@ WithdrawRewardPoints = max(⌊(Balance / SilverBalanceCostPerPoint)」 + ⌊(Dep
 ```
 
 Here:
-- `⌊ x 」` rounding a number down to the nearest integer (see [Decimal.Floor(Decimal) Method](https://learn.microsoft.com/en-us/dotnet/api/system.decimal.floor));
+- `⌊ x 」` rounding a specified `Decimal` number to the closest integer toward negative infinity (see [Decimal.Floor(Decimal) Method](https://learn.microsoft.com/en-us/dotnet/api/system.decimal.floor));
 - `max(x, y)` gives the maximum of `x` and `y`.
 
 
@@ -233,7 +233,7 @@ WithdrawRewardPoints = max(「(Balance / GoldBalanceCostPerPoint)⌉ + 「(Depos
 ```
 
 Here:
-- `「 x ⌉` rounding a number up to the nearest whole number (see [Decimal.Ceiling(Decimal) Method](https://learn.microsoft.com/en-us/dotnet/api/system.decimal.ceiling));
+- `「 x ⌉` rounding the smallest integral value that is greater than or equal to the specified decimal number (see [Decimal.Ceiling(Decimal) Method](https://learn.microsoft.com/en-us/dotnet/api/system.decimal.ceiling));
 - `max(x, y)` gives the maximum of `x` and `y`.
 
 ### 7. IUniqueNumberGenerator Interface
