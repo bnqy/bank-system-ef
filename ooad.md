@@ -298,11 +298,13 @@ The `CryptoHelper` class is a static helper class that provides a method for gen
 
 ### Note
 
-Please note that [Bank Account](https://autocode.git.epam.com/dotnet-tasks/oop/net8/bank-account/-/tree/main/BankSystem) Visual Studio project contains only class files and does not contain classes code. Therefore, we recommend starting with adding all the necessary types and their methods, using for these methods "stubs" like these
+Please note that this project contains only class files and does not contain classes code. Therefore, we recommend starting with adding all the necessary types and their methods, using for these methods "stubs" like these
 
 ```
 public sealed class AccountOwner
 {
+    . . .
+
     public AccountOwner(string? firstName, string? lastName, string? email)
     {
         throw new NotImplementedException();
@@ -312,4 +314,4 @@ public sealed class AccountOwner
 }
 ```
 
-and only then moving to a more detailed implementation that satisfies all the test requirements.
+and then moving to a more detailed implementation that satisfies all the test requirements.
