@@ -1,79 +1,68 @@
-using System.Reflection;
-using BankSystem.DAL.Entities;
+using BankSystem.Services.Generators;
+using BankSystem.Services.Models;
+using BankSystem.Services.Models.Accounts;
+using Moq;
+using Moq.Protected;
 using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace BankSystem.Tests.Models;
 
 [TestFixture]
-public class BankAccountTests : ModelTestBase<BankAccount>
+public class BankAccountTests
 {
-    [Test]
-    public void IsPublicClass()
+    private Mock<BankAccount> mockBankAccount = null!;
+    private Mock<IUniqueNumberGenerator> mockNumberGenerator = null!;
+
+    [SetUp]
+    public void SetUp()
     {
-        this.AssertThatClassIsPublic(false);
+        var owner = new AccountOwner("John", "Doe", "john.doe@gmail.com");
+        this.mockNumberGenerator = new Mock<IUniqueNumberGenerator>();
+        _ = this.mockNumberGenerator.Setup(m => m.Generate()).Returns("1234567890");
+        this.mockBankAccount = new Mock<BankAccount>(owner, "USD", this.mockNumberGenerator.Object, 1000m);
     }
 
     [Test]
-    public void InheritsObject()
+    public void Deposit_IncreaseBalance()
     {
-        this.AssertThatClassInheritsObject();
+        this.mockBankAccount.Object.Deposit(500m, DateTime.Now, "Test deposit");
+        Assert.That(1500, Is.EqualTo(this.mockBankAccount.Object.Balance));
+        this.mockBankAccount.Protected().Verify("CalculateDepositRewardPoints", Times.Exactly(2), ItExpr.IsAny<decimal>());
     }
 
     [Test]
-    public void HasRequiredMembers()
+    public void Withdraw_DecreaseBalance()
     {
-        ClassicAssert.AreEqual(0, this.ClassType.GetFields(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).Length, "Checking fields number");
-        ClassicAssert.AreEqual(0, this.ClassType.GetFields(BindingFlags.Instance | BindingFlags.Public).Length, "Checking fields number");
-        ClassicAssert.AreEqual(9, this.ClassType.GetFields(BindingFlags.Instance | BindingFlags.NonPublic).Length, "Checking fields number");
-
-        ClassicAssert.AreEqual(0, this.ClassType.GetConstructors(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).Length, "Checking constructor number");
-        ClassicAssert.AreEqual(1, this.ClassType.GetConstructors(BindingFlags.Instance | BindingFlags.Public).Length, "Checking constructor number");
-        ClassicAssert.AreEqual(0, this.ClassType.GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic).Length, "Checking constructor number");
-
-        ClassicAssert.AreEqual(0, this.ClassType.GetProperties(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).Length, "Checking properties number");
-        ClassicAssert.AreEqual(9, this.ClassType.GetProperties(BindingFlags.Instance | BindingFlags.Public).Length, "Checking properties number");
-        ClassicAssert.AreEqual(0, this.ClassType.GetProperties(BindingFlags.Instance | BindingFlags.NonPublic).Length, "Checking properties number");
-
-        ClassicAssert.AreEqual(0, this.ClassType.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly).Length, "Checking methods number");
-        ClassicAssert.AreEqual(0, this.ClassType.GetMethods(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).Length, "Checking methods number");
-
-        ClassicAssert.AreEqual(18, this.ClassType.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly).Length, "Checking methods number");
-        ClassicAssert.AreEqual(0, this.ClassType.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).Length, "Checking methods number");
-
-        ClassicAssert.AreEqual(0, this.ClassType.GetEvents(BindingFlags.Static | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Length, "Checking events number");
+        this.mockBankAccount.Object.Withdraw(500m, DateTime.Now, "Test withdrawal");
+        Assert.That(500, Is.EqualTo(this.mockBankAccount.Object.Balance));
     }
 
-    [TestCase("bank_account")]
-    public void HasTableAttribute(string tableName)
+    [Test]
+    public void Withdraw_InvokeCalculateWithdrawRewardPointsMethod()
     {
-        this.AssertThatHasTableAttribute(tableName);
+        this.mockBankAccount.Object.Withdraw(500m, DateTime.Now, "Test withdrawal");
+        Assert.That(500, Is.EqualTo(this.mockBankAccount.Object.Balance));
+        this.mockBankAccount.Protected().Verify("CalculateWithdrawRewardPoints", Times.Once(), ItExpr.IsAny<decimal>());
     }
 
-    [TestCase("Id", typeof(int), "bank_account_id")]
-    [TestCase("AccountOwnerId", typeof(int), "account_owner_id")]
-    [TestCase("Number", typeof(string), "account_number")]
-    [TestCase("Balance", typeof(decimal), "balance")]
-    [TestCase("CurrencyCodeId", typeof(int), "currency_code_id")]
-    [TestCase("BonusPoints", typeof(int), "bonus_points")]
-    [TestCase("Overdraft", typeof(decimal), "overdraft")]
-    [TestCase("AccountOwner", typeof(AccountOwner), null)]
-    [TestCase("CurrencyCode", typeof(CurrencyCode), null)]
-    public void HasProperty(string propertyName, Type propertyType, string columnName)
+    [Test]
+    public void Withdraw_AmountIsGreaterThanBalance_ThrowInvalidOperationException()
     {
-        _ = this.AssertThatClassHasProperty(propertyName, propertyType, columnName);
+        _ = Assert.Throws<InvalidOperationException>(() => this.mockBankAccount.Object.Withdraw(2000, DateTime.Now, "Test excessive withdrawal"));
     }
 
-    [TestCase("Id")]
-    public void HasKeyAttribute(string propertyName)
+    [Test]
+    public void Constructor_AccountNumberGeneratedByNumberGenerator()
     {
-        this.AssertThatPropertyHasKeyAttribute(propertyName);
+        Assert.That("1234567890", Is.EqualTo(this.mockBankAccount.Object.Number));
+        this.mockNumberGenerator.Verify(m => m.Generate(), Times.Once);
     }
 
-    [TestCase("AccountOwnerId", "AccountOwner")]
-    [TestCase("CurrencyCodeId", "CurrencyCode")]
-    public void HasForeignKeyAttribute(string propertyName, string navigationPropertyName)
+    [Test]
+    public void ToString_ReturnInformationAboutBankAccount()
     {
-        this.AssertThatPropertyHasForeignKeyAttribute(propertyName, navigationPropertyName);
+        string s = @"John Doe, john.doe@gmail.com. No:1234567891. Balance: 1000USD.\\n\";
+        _ = this.mockBankAccount.Setup(b => b.ToString()).Returns(s);
+        Assert.That(s, Is.EqualTo(this.mockBankAccount.Object.ToString()));
     }
 }

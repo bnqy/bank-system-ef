@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace AutocodeDB.Helpers;
+namespace BankSystem.Tests.AutocodeDB.Helpers;
 
 public static class QueryHelper
 {

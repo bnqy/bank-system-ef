@@ -1,4 +1,4 @@
-namespace BankSystem.DAL.Entities;
+namespace BankSystem.EF.Entities;
 
 public class AccountCashOperation
 {
@@ -14,3 +14,4 @@ public class AccountCashOperation
 
     public BankAccount BankAccount { get; set; }
 }
+

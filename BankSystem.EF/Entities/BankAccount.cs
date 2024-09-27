@@ -1,7 +1,4 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace BankSystem.DAL.Entities;
+namespace BankSystem.EF.Entities;
 
 public class BankAccount
 {
@@ -23,3 +20,4 @@ public class BankAccount
 
     public CurrencyCode CurrencyCode { get; set; }
 }
+

@@ -22,6 +22,6 @@
 		  </PackageReference>
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\BankSystem.DAL\BankSystem.DAL.csproj" />
+	  <ProjectReference Include="..\BankSystem.EF\BankSystem.EF.csproj" />
 	</ItemGroup>
 </Project>

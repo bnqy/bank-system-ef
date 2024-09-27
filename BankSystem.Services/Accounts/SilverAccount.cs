@@ -1,1 +1,0 @@
-namespace BankSystem.Services.Accounts;

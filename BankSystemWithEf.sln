@@ -5,7 +5,7 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankSystem.Services", "BankSystem.Services\BankSystem.Services.csproj", "{DB3A4D49-85E9-4288-80D1-5B2DE7A43E62}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankSystem.DAL", "BankSystem.DAL\BankSystem.DAL.csproj", "{5522A4F0-CBC2-40AC-A930-DF2F6B37408B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankSystem.EF", "BankSystem.EF\BankSystem.EF.csproj", "{5522A4F0-CBC2-40AC-A930-DF2F6B37408B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankSystem.Tests", "BankSystem.Tests\BankSystem.Tests.csproj", "{F08C9F0A-0CF7-450F-A2AC-8F4A2A4CE131}"
 EndProject

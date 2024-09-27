@@ -2,7 +2,7 @@ using System.Data;
 using System.Globalization;
 using Microsoft.Data.Sqlite;
 
-namespace AutocodeDB.Helpers;
+namespace BankSystem.Tests.AutocodeDB.Helpers;
 
 public static class SqliteHelper
 {

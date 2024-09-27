@@ -1,3 +1,5 @@
+using BankSystem.Tests.Entities;
+
 namespace BankSystem.Tests.Services;
 
 public class ServiceBaseTests<T> : IDisposable

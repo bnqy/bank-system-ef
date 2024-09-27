@@ -1,4 +1,5 @@
 using BankSystem.Services.Services;
+using BankSystem.Tests.Entities;
 using NUnit.Framework;
 
 namespace BankSystem.Tests.Services;
@@ -10,9 +11,9 @@ public sealed class AccountServiceTests : ServiceBaseTests<AccountService>
     {
         new object[]
         {
-            "GetBankAccountsInfo",
-            (AccountService service) => service.GetBankAccountsFullInfo(),
-            (BankContextFactory factory) => factory.GetEntitiesBySqlQueryName("GetBankAccountsInfo", ModelBuilders.BuildBankAccountFullInfoModel),
+            "GetBankAccountsInfo", (AccountService service) => service.GetBankAccountsFullInfo(), (BankContextFactory factory) => factory.GetEntitiesBySqlQueryName(
+                "GetBankAccountsInfo",
+                ModelBuilders.BuildBankAccountFullInfoModel),
         },
     };
 
@@ -31,7 +32,10 @@ public sealed class AccountServiceTests : ServiceBaseTests<AccountService>
     }
 
     [TestCaseSource(nameof(TestContainer))]
-    public new void ReportService_ReturnsCorrectReportLines(string methodName, Func<AccountService, IReadOnlyList<object>> getActualLines, Func<BankContextFactory, IReadOnlyList<object>> getExpectedLines)
+    public new void ReportService_ReturnsCorrectReportLines(
+        string methodName,
+        Func<AccountService, IReadOnlyList<object>> getActualLines,
+        Func<BankContextFactory, IReadOnlyList<object>> getExpectedLines)
     {
         base.ReportService_ReturnsCorrectReportLines(methodName, getActualLines, getExpectedLines);
     }

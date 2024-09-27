@@ -1,66 +1,107 @@
 using System.Reflection;
+using BankSystem.Services.Generators;
+using BankSystem.Services.Models;
+using BankSystem.Services.Models.Accounts;
+using Moq;
 using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace BankSystem.Tests.Models;
 
 [TestFixture]
-public class AccountOwnerTests : ModelTestBase<DAL.Entities.AccountOwner>
+public sealed class AccountOwnerTests
 {
-    [Test]
-    public void IsPublicClass()
+    private static IEnumerable<(string firstName, string lastName, string email)> TestCasesForPropertiesVerification
     {
-        this.AssertThatClassIsPublic(false);
+        get
+        {
+            yield return ("Arlene", "Robel", "Arlene.Robel96@hotmail.com");
+            yield return ("Clement", "Fisher", "Clement.Fisher@gmail.com");
+            yield return ("Danielle", "McGlynn", "Danielle83@gmail.com");
+            yield return ("Garrett", "Jast", "Garrett21@gmail.com");
+            yield return ("Garrick", "Little", "Garrick_Little@gmail.com");
+            yield return ("Jared", "Harber", "Jared.Harber48@hotmail.com");
+            yield return ("Jaycee", "Rempel", "Jaycee.Rempel57@yahoo.com");
+            yield return ("Lily", "Schneider", "Lily_Schneider83@gmail.com");
+            yield return ("Madisen", "Ondricka", "Madisen_Ondricka6@hotmail.com");
+            yield return ("Nicole", "Schmitt", "Nicole58@gmail.com");
+        }
+    }
+
+    private static IEnumerable<(AccountOwner owner, string expected)> TestCasesForToString
+    {
+        get
+        {
+            yield return (new AccountOwner("Arlene", "Robel", "Arlene.Robel96@hotmail.com"), "Arlene Robel, Arlene.Robel96@hotmail.com.");
+            yield return (new AccountOwner("Clement", "Fisher", "Clement.Fisher@gmail.com"), "Clement Fisher, Clement.Fisher@gmail.com.");
+            yield return (new AccountOwner("Danielle", "McGlynn", "Danielle83@gmail.com"), "Danielle McGlynn, Danielle83@gmail.com.");
+            yield return (new AccountOwner("Garrett", "Jast", "Garrett21@gmail.com"), "Garrett Jast, Garrett21@gmail.com.");
+            yield return (new AccountOwner("Garrick", "Little", "Garrick_Little@gmail.com"), "Garrick Little, Garrick_Little@gmail.com.");
+            yield return (new AccountOwner("Jared", "Harber", "Jared.Harber48@hotmail.com"), "Jared Harber, Jared.Harber48@hotmail.com.");
+            yield return (new AccountOwner("Jaycee", "Rempel", "Jaycee.Rempel57@yahoo.com"), "Jaycee Rempel, Jaycee.Rempel57@yahoo.com.");
+            yield return (new AccountOwner("Lily", "Schneider", "Lily_Schneider83@gmail.com"), "Lily Schneider, Lily_Schneider83@gmail.com.");
+            yield return (new AccountOwner("Madisen", "Ondricka", "Madisen_Ondricka6@hotmail.com"), "Madisen Ondricka, Madisen_Ondricka6@hotmail.com.");
+            yield return (new AccountOwner("Nicole", "Schmitt", "Nicole58@gmail.com"), "Nicole Schmitt, Nicole58@gmail.com.");
+        }
+    }
+
+    [TestCaseSource(nameof(TestCasesForPropertiesVerification))]
+    public void Constructor_Should_Initialize_Properties((string firstName, string lastName, string email) value)
+    {
+        var owner = new AccountOwner(value.firstName, value.lastName, value.email);
+
+        Assert.That(value, Is.EqualTo((owner.FirstName, owner.LastName, owner.Email)));
+    }
+
+    [TestCaseSource(nameof(TestCasesForToString))]
+    public void ToString_ShouldReturnCorrectString((AccountOwner owner, string expected) value)
+    {
+        Assert.That(value.owner.ToString(), Is.EqualTo(value.expected));
     }
 
     [Test]
-    public void InheritsObject()
+    public void Add_New_Account_To_Accounts()
     {
-        this.AssertThatClassInheritsObject();
+        var owner = new AccountOwner("John", "Doe", "john.doe@gmail.com");
+        var mockGenerator = new Mock<IUniqueNumberGenerator>();
+        _ = mockGenerator.Setup(m => m.Generate()).Returns("1234567890");
+        var mockAccount = new Mock<BankAccount>(owner, "USD", mockGenerator.Object, 1000m);
+        BankAccount account = mockAccount.Object;
+        int countBefore = owner.Accounts().Count;
+        owner.Add(account);
+        int countAfter = owner.Accounts().Count;
+        Assert.That(countBefore == countAfter - 1);
+        Assert.That(owner.Accounts().Contains(account));
     }
 
     [Test]
-    public void HasRequiredMembers()
+    public void Constructor_InvalidEmail_ThrowArgumentException()
     {
-        ClassicAssert.AreEqual(0, this.ClassType.GetFields(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).Length, "Checking fields number");
-        ClassicAssert.AreEqual(0, this.ClassType.GetFields(BindingFlags.Instance | BindingFlags.Public).Length, "Checking fields number");
-        ClassicAssert.AreEqual(5, this.ClassType.GetFields(BindingFlags.Instance | BindingFlags.NonPublic).Length, "Checking fields number");
-
-        ClassicAssert.AreEqual(0, this.ClassType.GetConstructors(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).Length, "Checking constructor number");
-        ClassicAssert.AreEqual(1, this.ClassType.GetConstructors(BindingFlags.Instance | BindingFlags.Public).Length, "Checking constructor number");
-        ClassicAssert.AreEqual(0, this.ClassType.GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic).Length, "Checking constructor number");
-
-        ClassicAssert.AreEqual(0, this.ClassType.GetProperties(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).Length, "Checking properties number");
-        ClassicAssert.AreEqual(5, this.ClassType.GetProperties(BindingFlags.Instance | BindingFlags.Public).Length, "Checking properties number");
-        ClassicAssert.AreEqual(0, this.ClassType.GetProperties(BindingFlags.Instance | BindingFlags.NonPublic).Length, "Checking properties number");
-
-        ClassicAssert.AreEqual(0, this.ClassType.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly).Length, "Checking methods number");
-        ClassicAssert.AreEqual(0, this.ClassType.GetMethods(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).Length, "Checking methods number");
-
-        ClassicAssert.AreEqual(10, this.ClassType.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly).Length, "Checking methods number");
-        ClassicAssert.AreEqual(0, this.ClassType.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).Length, "Checking methods number");
-
-        ClassicAssert.AreEqual(0, this.ClassType.GetEvents(BindingFlags.Static | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Length, "Checking events number");
+        _ = Assert.Throws<ArgumentException>(() => _ = new AccountOwner("John", "Doe", "invalid email"));
     }
 
-    [TestCase("account_owner")]
-    public void HasTableAttribute(string tableName)
+    [Test]
+    public void Constructor_EmptyFirstName_ThrowArgumentException()
     {
-        this.AssertThatHasTableAttribute(tableName);
+        _ = Assert.Throws<ArgumentException>(() => _ = new AccountOwner(string.Empty, "Doe", "john.doe@gmail.com"));
     }
 
-    [TestCase("Id", typeof(int), "account_owner_id")]
-    [TestCase("FirstName", typeof(string), "first_name")]
-    [TestCase("LastName", typeof(string), "last_name")]
-    [TestCase("Email", typeof(string), "email")]
-    public void HasProperty(string propertyName, Type propertyType, string columnName)
+    [Test]
+    public void Constructor_EmptyLastName_ThrowArgumentException()
     {
-        _ = this.AssertThatClassHasProperty(propertyName, propertyType, columnName);
+        _ = Assert.Throws<ArgumentException>(() => _ = new AccountOwner("John", string.Empty, "john.doe@gmail.com"));
     }
 
-    [TestCase("Id")]
-    public void HasKeyAttribute(string propertyName)
+    [Test]
+    public void VerifyString_EmptyString_ThrowArgumentException()
     {
-        this.AssertThatPropertyHasKeyAttribute(propertyName);
+        var methodInfo = typeof(AccountOwner).GetMethod("VerifyString", BindingFlags.NonPublic | BindingFlags.Static);
+        try
+        {
+            _ = methodInfo!.Invoke(null, [string.Empty, "paramName"]);
+        }
+        catch (TargetInvocationException ex)
+        {
+            Assert.That(ex.InnerException is ArgumentException);
+        }
     }
 }

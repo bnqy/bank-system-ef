@@ -1,76 +1,29 @@
-using System.Reflection;
-using BankSystem.DAL.Entities;
 using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace BankSystem.Tests.Models;
 
 [TestFixture]
-public class AccountCashOperationTests : ModelTestBase<DAL.Entities.AccountCashOperation>
+public sealed class AccountCashOperationTests
 {
-    [Test]
-    public void IsPublicClass()
+    private static readonly object[] Operation =
+    [
+        new object[] { 1000m, new DateTime(2024, 1, 23, 18, 30, 25), "Deposit test", "01/23/2024 18:30:25 Deposit test : Credited to account 1000." },
+        new object[] { -500m, new DateTime(2024, 2, 15, 12, 3, 34), "Withdrawal test", "02/15/2024 12:03:34 Withdrawal test : Debited from account -500." },
+        new object[] { 0m, new DateTime(2024, 03, 1, 4, 23, 45), "Balance test", "03/01/2024 04:23:45 Balance test : Credited to account 0." },
+        new object[] { 20000m, new DateTime(2024, 4, 1, 22, 3, 4), "New Year Deposit", "04/01/2024 22:03:04 New Year Deposit : Credited to account 20000." },
+        new object[] { -3250m, new DateTime(2024, 5, 26, 3, 27, 54), "Vacation Withdrawal", "05/26/2024 03:27:54 Vacation Withdrawal : Debited from account -3250." },
+        new object[] { 15000m, new DateTime(2024, 6, 12, 11, 46, 23), "Salary Deposit", "06/12/2024 11:46:23 Salary Deposit : Credited to account 15000." },
+        new object[] { -1000m, new DateTime(2024, 7, 20, 14, 5, 33), "Groceries Withdrawal", "07/20/2024 14:05:33 Groceries Withdrawal : Debited from account -1000." },
+    ];
+
+    [TestCaseSource(typeof(AccountCashOperationTests), nameof(Operation))]
+    public void Operation_ObjectVerification(decimal amount, DateTime date, string note, string expected)
     {
-        this.AssertThatClassIsPublic(false);
-    }
+        var operation = new BankSystem.Services.Models.AccountCashOperation(amount, date, note);
 
-    [Test]
-    public void InheritsObject()
-    {
-        this.AssertThatClassInheritsObject();
-    }
-
-    [Test]
-    public void HasRequiredMembers()
-    {
-
-        Console.WriteLine(this.ClassType.GetFields(BindingFlags.Instance | BindingFlags.NonPublic));
-
-        ClassicAssert.AreEqual(0, this.ClassType.GetConstructors(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).Length, "Checking constructor number");
-        ClassicAssert.AreEqual(1, this.ClassType.GetConstructors(BindingFlags.Instance | BindingFlags.Public).Length, "Checking constructor number");
-        ClassicAssert.AreEqual(0, this.ClassType.GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic).Length, "Checking constructor number");
-
-
-        Console.WriteLine(this.ClassType.GetProperties(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic));
-        ClassicAssert.AreEqual(0, this.ClassType.GetProperties(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).Length, "Checking properties number");
-        ClassicAssert.AreEqual(6, this.ClassType.GetProperties(BindingFlags.Instance | BindingFlags.Public).Length, "Checking properties number");
-        ClassicAssert.AreEqual(0, this.ClassType.GetProperties(BindingFlags.Instance | BindingFlags.NonPublic).Length, "Checking properties number");
-
-        ClassicAssert.AreEqual(0, this.ClassType.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly).Length, "Checking methods number");
-        ClassicAssert.AreEqual(0, this.ClassType.GetMethods(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).Length, "Checking methods number");
-
-        ClassicAssert.AreEqual(12, this.ClassType.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly).Length, "Checking methods number");
-        ClassicAssert.AreEqual(0, this.ClassType.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).Length, "Checking methods number");
-
-        ClassicAssert.AreEqual(0, this.ClassType.GetEvents(BindingFlags.Static | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Length, "Checking events number");
-    }
-
-    [TestCase("account_cash_operation")]
-    public void HasTableAttribute(string tableName)
-    {
-        this.AssertThatHasTableAttribute(tableName);
-    }
-
-    [TestCase("Id", typeof(int), "account_cash_operation_id")]
-    [TestCase("BankAccountId", typeof(int), "bank_account_id")]
-    [TestCase("Amount", typeof(decimal), "amount")]
-    [TestCase("OperationDateTime", typeof(string), "operation_date_time")]
-    [TestCase("Note", typeof(string), "note")]
-    [TestCase("BankAccount", typeof(BankAccount), null)]
-    public void HasProperty(string propertyName, Type propertyType, string columnName)
-    {
-        _ = this.AssertThatClassHasProperty(propertyName, propertyType, columnName);
-    }
-
-    [TestCase("Id")]
-    public void HasKeyAttribute(string propertyName)
-    {
-        this.AssertThatPropertyHasKeyAttribute(propertyName);
-    }
-
-    [TestCase("BankAccountId", "BankAccount")]
-    public void HasForeignKeyAttribute(string propertyName, string navigationPropertyName)
-    {
-        this.AssertThatPropertyHasForeignKeyAttribute(propertyName, navigationPropertyName);
+        Assert.That(operation.Amount, Is.EqualTo(amount));
+        Assert.That(operation.Date, Is.EqualTo(date));
+        Assert.That(operation.Note, Is.EqualTo(note));
+        Assert.That(operation.ToString(), Is.EqualTo(expected));
     }
 }

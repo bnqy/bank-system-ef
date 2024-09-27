@@ -3,7 +3,7 @@ using BankSystem.Tests.AutocodeDB.Helpers;
 using Microsoft.Data.Sqlite;
 using NUnit.Framework;
 
-namespace BankSystem.Tests.Models;
+namespace BankSystem.Tests.Entities;
 
 [TestFixture]
 public sealed class BankContextTests : IDisposable

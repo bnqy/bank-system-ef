@@ -18,7 +18,7 @@ Implement classes that represent a banking system. To simulate a banking system,
 
 ### 1. AcсountCashOperation Class
 
-This class is designed to represent a bank account cash operation. 
+This class is designed to represent a bank account cash operation.
 
 #### Properties
 
@@ -43,7 +43,7 @@ This constructor requires three parameters:
 
 ### 2. AccountOwner Class
 
-The `AccountOwner` class is used for representing a bank account owner. 
+The `AccountOwner` class is used for representing a bank account owner.
 
 #### Properties
 
@@ -96,7 +96,7 @@ The abstract `BankAccount` class provides four constructors to allow for various
 - The _third_ constructor extends the first one by adding an `initialBalance` parameter, a decimal value used as an initial deposit upon creating the account.
 - The _fourth_ constructor extends the second one in a similar way, by adding the `initialBalance` parameter.
 
-#### Methods 
+#### Methods
 
 The class includes the following methods:
 
@@ -140,7 +140,7 @@ The `StandardAccount` class overrides two methods of the base `BankAccount` clas
 
 ```
 DepositRewardPoints = max(⌊(Balance / StandardBalanceCostPerPoint)」, 0)
-```    
+```
 - `CalculateWithdrawRewardPoints(decimal amount)`: Calculates reward points based on _balance_ only, using pre-defined calculation constant according to the formula:
 
 ```
@@ -148,7 +148,7 @@ WithdrawRewardPoints = max(⌊(Balance / StandardBalanceCostPerPoint)」, 0)
 ```
 
 Here:
-- `⌊ x 」` rounding a number down to the nearest integer (see [Decimal.Floor(Decimal) Method](https://learn.microsoft.com/en-us/dotnet/api/system.decimal.floor));   
+- `⌊ x 」` rounding a number down to the nearest integer (see [Decimal.Floor(Decimal) Method](https://learn.microsoft.com/en-us/dotnet/api/system.decimal.floor));
 - `max(x, y)` gives the maximum of `x` and `y`.
 
 ### 5. SilverAccount Class
@@ -183,7 +183,7 @@ The `SilverAccount` class overrides two methods of the base `BankAccount` class:
 
 ```
 DepositRewardPoints = max( ⌊(Balance / SilverBalanceCostPerPoint)」+ ⌊ (Deposit / SilverDepositCostPerPoint)」, 0)
-```    
+```
 - `CalculateWithdrawRewardPoints(decimal amount)` method calculates reward points based on _balance_ and _withdrawal_ amount, using pre-defined calculation constants according to the formula:
 
 ```
@@ -191,7 +191,7 @@ WithdrawRewardPoints = max(⌊(Balance / SilverBalanceCostPerPoint)」 + ⌊(Dep
 ```
 
 Here:
-- `⌊ x 」` rounding a number down to the nearest integer (see [Decimal.Floor(Decimal) Method](https://learn.microsoft.com/en-us/dotnet/api/system.decimal.floor));   
+- `⌊ x 」` rounding a number down to the nearest integer (see [Decimal.Floor(Decimal) Method](https://learn.microsoft.com/en-us/dotnet/api/system.decimal.floor));
 - `max(x, y)` gives the maximum of `x` and `y`.
 
 
@@ -227,7 +227,7 @@ The `GoldAccount` class overrides two methods of the base `BankAccount` class:
 
 ```
 DepositRewardPoints = max( 「(Balance / GoldBalanceCostPerPoint)⌉+ 「(Deposit / GoldDepositCostPerPoint)⌉, 0)
-```    
+```
 - `CalculateWithdrawRewardPoints(decimal amount)` method calculates reward points based on _balance_ and _withdrawal_ amount, using pre-defined calculation constants according to the formula:
 
 ```
@@ -297,3 +297,21 @@ The `CryptoHelper` class is a static helper class that provides a method for gen
 #### Method
 
 - `GenerateHash(string input)` extension method generates an MD5 hash from an input string using the ASCII representation of the input. It returns the hashed string as output.
+
+### Note
+
+Please note that [Bank Account](https://autocode.git.epam.com/dotnet-tasks/oop/net8/bank-account/-/tree/main/BankSystem) Visual Studio project contains only class files and does not contain classes code. Therefore, we recommend starting with adding all the necessary types and their methods, using for these methods "stubs" like these
+
+```
+public sealed class AccountOwner
+{
+    public AccountOwner(string? firstName, string? lastName, string? email)
+    {
+        throw new NotImplementedException();
+    }
+
+    . . .
+}
+```
+
+and only then moving to a more detailed implementation that satisfies all the test requirements.

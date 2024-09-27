@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
 using NUnit.Framework;
 
-namespace BankSystem.Tests.Models;
+namespace BankSystem.Tests.Entities;
 
 public abstract class ModelTestBase<T>
     where T : class
@@ -37,7 +37,7 @@ public abstract class ModelTestBase<T>
         Assert.That(this.ClassType.BaseType, Is.EqualTo(typeof(object)));
     }
 
-    protected PropertyInfo AssertThatClassHasProperty(string propertyName, Type expectedPropertyType, string columnName)
+    protected PropertyInfo AssertThatClassHasProperty(string propertyName, Type expectedPropertyType, string? columnName)
     {
         var propertyInfo = this.ClassType.GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public);
 

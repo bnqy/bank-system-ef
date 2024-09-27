@@ -1,8 +1,7 @@
 using BankSystem.Tests.AutocodeDB.Models;
 using Microsoft.Data.Sqlite;
 
-#pragma warning disable IDE0130, CA1031
-namespace AutocodeDB.Helpers;
+namespace BankSystem.Tests.AutocodeDB.Helpers;
 
 public static class SelectHelper
 {

@@ -2,13 +2,12 @@ using System.Collections.ObjectModel;
 using System.Data.Common;
 using System.Reflection;
 using System.Resources;
-using AutocodeDB.Helpers;
-using BankSystem.DAL.Entities;
+using BankSystem.EF.Entities;
 using BankSystem.Tests.AutocodeDB.Helpers;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
-namespace BankSystem.Tests;
+namespace BankSystem.Tests.Entities;
 
 public sealed class BankContextFactory : IDisposable
 {

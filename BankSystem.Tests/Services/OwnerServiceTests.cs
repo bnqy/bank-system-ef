@@ -1,4 +1,5 @@
 using BankSystem.Services.Services;
+using BankSystem.Tests.Entities;
 using NUnit.Framework;
 
 namespace BankSystem.Tests.Services;
@@ -8,7 +9,13 @@ public sealed class OwnerServiceTests : ServiceBaseTests<OwnerService>
 {
     private static readonly object[][] TestContainer = new object[][]
     {
-        new object[] { "GetProductCategoryReport", (OwnerService service) => service.GetAccountOwnersTotalBalance(), (BankContextFactory factory) => factory.GetEntitiesBySqlQueryName("GetProductCategoryReport", ModelBuilders.BuildAcountOwnerTotalBalanceModel), },
+        new object[]
+        {
+            "GetProductCategoryReport", (OwnerService service) => service.GetAccountOwnersTotalBalance(),
+            (BankContextFactory factory) => factory.GetEntitiesBySqlQueryName(
+                "GetProductCategoryReport",
+                ModelBuilders.BuildAcountOwnerTotalBalanceModel),
+        },
     };
 
     [SetUp]
@@ -26,7 +33,10 @@ public sealed class OwnerServiceTests : ServiceBaseTests<OwnerService>
     }
 
     [TestCaseSource(nameof(TestContainer))]
-    public new void ReportService_ReturnsCorrectReportLines(string methodName, Func<OwnerService, IReadOnlyList<object>> getActualLines, Func<BankContextFactory, IReadOnlyList<object>> getExpectedLines)
+    public new void ReportService_ReturnsCorrectReportLines(
+        string methodName,
+        Func<OwnerService, IReadOnlyList<object>> getActualLines,
+        Func<BankContextFactory, IReadOnlyList<object>> getExpectedLines)
     {
         base.ReportService_ReturnsCorrectReportLines(methodName, getActualLines, getExpectedLines);
     }
