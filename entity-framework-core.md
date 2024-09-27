@@ -11,7 +11,7 @@ The task requires .NET 8 SDK installed.
 
 This task is based on the *BankSystem* database. The database structure is shown on the diagram below:
 
-![Bank System](images/bank-system.png)
+![Bank System](images/banksystem.png)
 
 Analyze and study the database diagram before starting the task.
 
