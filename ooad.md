@@ -12,7 +12,7 @@ _The task requires .NET 8 SDK installed._
 
 Implement classes that represent a banking system. To simulate a banking system, you can implement classes presented in the following class diagram:
 
-![Class Diagram](images/classes-diagram.png)
+![Class Diagram](images/alltypes.png)
 
 ## Classes Description
 
