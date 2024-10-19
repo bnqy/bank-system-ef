@@ -112,7 +112,7 @@ public abstract class BankAccount
     /// Deposits the specified amount into the account.
     /// </summary>
     /// <param name="amount">The amount to deposit.</param>
-    public void Deposit(decimal amount, DateTime dateTime, string note)
+    /*public void Deposit(decimal amount, DateTime dateTime, string note)
     {
         if (amount <= 0)
         {
@@ -130,8 +130,26 @@ public abstract class BankAccount
 
         // Optionally calculate bonus points (if implemented)
         BonusPoints += CalculateDepositRewardPoints(amount);
-    }
+    }*/
+    public void Deposit(decimal amount, DateTime dateTime, string note)
+    {
+        if (amount <= 0)
+        {
+            throw new ArgumentException("Deposit amount must be greater than zero.");
+        }
 
+        // Update the balance
+        Balance += amount;
+
+        // Create a new cash operation
+        var operation = new AccountCashOperation(amount, dateTime, note);
+
+        // Add the operation to the operations list
+        Operations.Add(operation);
+
+        // Calculate bonus points (make sure this method is public/protected)
+        BonusPoints += CalculateDepositRewardPoints(amount);
+    }
     /// <summary>
     /// Withdraws the specified amount from the account.
     /// </summary>
@@ -167,12 +185,12 @@ public abstract class BankAccount
     /// </summary>
     /// <param name="amount">The amount deposited.</param>
     /// <returns>The bonus points earned.</returns>
-    public abstract int CalculateDepositRewardPoints(decimal amount);
+    protected abstract int CalculateDepositRewardPoints(decimal amount);
 
     /// <summary>
     /// Calculates bonus points earned on withdrawal. Must be implemented in derived classes.
     /// </summary>
     /// <param name="amount">The amount withdrawn.</param>
     /// <returns>The bonus points earned.</returns>
-    public abstract int CalculateWithdrawRewardPoints(decimal amount);
+    protected abstract int CalculateWithdrawRewardPoints(decimal amount);
 }

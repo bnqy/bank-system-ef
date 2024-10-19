@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace BankSystem.Services.Models;
 
 
@@ -38,10 +40,27 @@ public class AccountCashOperation
     /// Returns a string representation of the operation, including amount, date, note, and whether it's a credit or debit.
     /// </summary>
     /// <returns>A string that describes the cash operation.</returns>
-    public override string ToString()
+    /*public override string ToString()
     {
         // Determine if the operation is a credit or debit based on the amount
         string operationType = Amount >= 0 ? "Credit" : "Debit";
         return $"{operationType}: Amount = {Amount:C}, Date = {Date}, Note = {Note}";
+    }*/
+
+    public override string ToString()
+    {
+        // Determine if the operation is a credit or debit based on the amount
+        string operationType = Amount >= 0 ? "Credited to account" : "Debited from account";
+
+        // Format the date as MM/dd/yyyy HH:mm:ss
+        //string formattedDate = DateTime.Parse(this.Date).ToString("MM/dd/yyyy HH:mm:ss");
+        string formattedDate = Date.ToString("MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+
+        // Format the amount without the currency symbol
+        string formattedAmount = (Amount).ToString("F0", CultureInfo.InvariantCulture); // Remove decimal places, commas, and currency symbol
+
+        // Construct the string in the expected format
+        return $"{formattedDate} {Note} : {operationType} {formattedAmount}.";
     }
+
 }

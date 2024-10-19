@@ -121,10 +121,10 @@ public class SilverAccount : BankAccount
     /// </summary>
     /// <param name="amount">The amount deposited.</param>
     /// <returns>The bonus points earned.</returns>
-    public override int CalculateDepositRewardPoints(decimal amount)
+    protected override int CalculateDepositRewardPoints(decimal amount)
     {
         // Calculate deposit reward points based on current balance and deposit amount.
-        return (int)Math.Max(Math.Floor(Balance / SilverBalanceCostPerPoint) + Math.Floor(amount / SilverDepositCostPerPoint), 0);
+        return (int)Math.Max(Math.Floor((Balance / SilverBalanceCostPerPoint) + (amount / SilverDepositCostPerPoint)), 0);
     }
 
     /// <summary>
@@ -132,9 +132,9 @@ public class SilverAccount : BankAccount
     /// </summary>
     /// <param name="amount">The amount withdrawn.</param>
     /// <returns>The bonus points earned.</returns>
-    public override int CalculateWithdrawRewardPoints(decimal amount)
+    protected override int CalculateWithdrawRewardPoints(decimal amount)
     {
         // Calculate withdrawal reward points based on current balance and withdrawal amount.
-        return (int)Math.Max(Math.Floor(Balance / SilverBalanceCostPerPoint) + Math.Floor(amount / SilverWithdrawCostPerPoint), 0);
+        return (int)Math.Max(Math.Floor((Balance / SilverBalanceCostPerPoint) + (amount / SilverWithdrawCostPerPoint)), 0);
     }
 }

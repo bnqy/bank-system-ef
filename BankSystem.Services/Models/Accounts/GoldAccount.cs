@@ -68,10 +68,13 @@ public class GoldAccount : BankAccount
     /// </summary>
     /// <param name="amount">The amount deposited.</param>
     /// <returns>The bonus points earned.</returns>
-    public override int CalculateDepositRewardPoints(decimal amount)
+    protected override int CalculateDepositRewardPoints(decimal amount)
     {
+        // DepositRewardPoints = max( 「(Balance / GoldBalanceCostPerPoint)⌉+ 「(Deposit / GoldDepositCostPerPoint)⌉, 0)
+
         // Calculate deposit reward points based on current balance and deposit amount.
-        return (int)Math.Max(Math.Ceiling(Balance / GoldBalanceCostPerPoint) + Math.Ceiling(amount / GoldDepositCostPerPoint), 0);
+        return (int)Math.Max(Math.Ceiling((Balance / GoldBalanceCostPerPoint) + (amount / GoldDepositCostPerPoint)), 0);
+       // return (int)(amount * 2);
     }
 
     /// <summary>
@@ -79,9 +82,10 @@ public class GoldAccount : BankAccount
     /// </summary>
     /// <param name="amount">The amount withdrawn.</param>
     /// <returns>The bonus points earned.</returns>
-    public override int CalculateWithdrawRewardPoints(decimal amount)
+    protected override int CalculateWithdrawRewardPoints(decimal amount)
     {
         // Calculate withdrawal reward points based on current balance and withdrawal amount.
-        return (int)Math.Max(Math.Ceiling(Balance / GoldBalanceCostPerPoint) + Math.Ceiling(amount / GoldWithdrawCostPerPoint), 0);
+        return (int)Math.Max(Math.Ceiling((Balance / GoldBalanceCostPerPoint) + (amount / GoldWithdrawCostPerPoint)), 0);
+        // return (int)(amount * 1);
     }
 }

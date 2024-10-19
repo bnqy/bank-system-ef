@@ -43,7 +43,7 @@ public class AccountService : IDisposable
 
     public AccountService(BankContext context)
     {
-        _context = context;
+        _context = context ?? throw new ArgumentNullException(nameof(context));
     }
 
     /// <summary>
@@ -60,7 +60,7 @@ public class AccountService : IDisposable
                 LastName = account.AccountOwner.LastName,
                 AccountNumber = account.Number,
                 Balance = account.Balance,
-                CurrencyCode = account.CurrencyCode.Code,
+                CurrencyCode = account.CurrencyCode.CurrenciesCode,
                 BonusPoints = account.BonusPoints
             })
             .ToList();

@@ -48,7 +48,7 @@ public class OwnerService : IDisposable
     /// Gets total balance for all account owners.
     /// </summary>
     /// <returns>A read-only list of account owner total balance models.</returns>
-    public IReadOnlyList<AccountOwnerTotalBalanceModel> GetAccountOwnersTotalBalance()
+    /*public IReadOnlyList<AccountOwnerTotalBalanceModel> GetAccountOwnersTotalBalance()
     {
         var totalBalances = _context.AccountOwners
             .Select(owner => new AccountOwnerTotalBalanceModel
@@ -56,14 +56,32 @@ public class OwnerService : IDisposable
                 AccountOwnerId = owner.Id,
                 FirstName = owner.FirstName,
                 LastName = owner.LastName,
-                CurrencyCode = owner.BankAccounts.FirstOrDefault().CurrencyCode.Code,
+                CurrencyCode = owner.BankAccounts.FirstOrDefault().CurrencyCode.CurrenciesCode,
                 Total = (decimal)owner.BankAccounts.Sum(account => account.Balance)
             })
             .OrderByDescending(model => model.Total)
             .ToList();
 
         return totalBalances.AsReadOnly();
+    }*/
+    public IReadOnlyList<AccountOwnerTotalBalanceModel> GetAccountOwnersTotalBalance()
+    {
+        return _context.AccountOwners
+            .Select(owner => new AccountOwnerTotalBalanceModel
+            {
+                AccountOwnerId = owner.Id,
+                FirstName = owner.FirstName,
+                LastName = owner.LastName,
+                CurrencyCode = owner.BankAccounts.FirstOrDefault().CurrencyCode.CurrenciesCode,
+                Total = _context.BankAccounts
+                    .Where(account => account.AccountOwnerId == owner.Id)
+                    .Sum(account => (double)account.Balance) // Convert to double here
+            })
+            .OrderByDescending(x => x.Total)
+            .ToList()
+            .AsReadOnly();
     }
+
 
     // Implement IDisposable.
     public void Dispose()

@@ -238,45 +238,52 @@ namespace BankSystem.EF.Entities
     /// <summary>
     /// Represents a bank account.
     /// </summary>
-    [Table("BankAccounts")] // Specify the database table name
+    [Table("bank_account")] // Specify the database table name
     public class BankAccount
     {
         /// <summary>
         /// Gets or sets the unique identifier for the bank account.
         /// </summary>
         [Key] // Indicates this property is the primary key
+        [Column("bank_account_id")]
         public int Id { get; set; }
 
         /// <summary>
         /// Gets or sets the account owner identifier associated with the bank account.
         /// </summary>
         [ForeignKey("AccountOwner")] // Specifies this property as a foreign key
+        [Column("account_owner_id")]
         public int AccountOwnerId { get; set; }
 
         /// <summary>
         /// Gets or sets the unique number of the bank account.
         /// </summary>
+        [Column("account_number")]
         public string Number { get; set; }
 
         /// <summary>
         /// Gets or sets the current balance of the bank account.
         /// </summary>
+        [Column("balance")]
         public decimal Balance { get; set; }
 
         /// <summary>
         /// Gets or sets the currency code identifier for the bank account.
         /// </summary>
         [ForeignKey("CurrencyCode")] // Specifies this property as a foreign key
+        [Column("currency_code_id")]
         public int CurrencyCodeId { get; set; }
 
         /// <summary>
         /// Gets or sets the bonus points associated with the bank account.
         /// </summary>
+        [Column("bonus_points")]
         public int BonusPoints { get; set; }
 
         /// <summary>
         /// Gets or sets the overdraft limit for the bank account.
         /// </summary>
+        [Column("overdraft")]
         public decimal Overdraft { get; set; }
 
         /// <summary>

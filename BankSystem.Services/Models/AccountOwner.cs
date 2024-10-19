@@ -81,4 +81,12 @@ public class AccountOwner
             throw new ArgumentException(email);
         }
     }
+
+    private static void VerifyString(string value, string paramName)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            throw new ArgumentException("String cannot be null or empty.", paramName);
+        }
+    }
 }

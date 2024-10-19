@@ -129,31 +129,32 @@ namespace BankSystem.EF.Entities
     /// <summary>
     /// Represents the owner of a bank account.
     /// </summary>
-    [Table("AccountOwners")] // Specify the database table name
+    [Table("account_owner")] // Specify the database table name
     public class AccountOwner
     {
         /// <summary>
         /// Gets or sets the unique identifier for the account owner.
         /// </summary>
         [Key] // Indicates this property is the primary key
+        [Column("account_owner_id")]
         public int Id { get; set; }
 
         /// <summary>
         /// Gets or sets the first name of the account owner.
         /// </summary>
-        [Column("FirstName")] // Specify the database column name
+        [Column("first_name")] // Specify the database column name
         public string FirstName { get; set; }
 
         /// <summary>
         /// Gets or sets the last name of the account owner.
         /// </summary>
-        [Column("LastName")] // Specify the database column name
+        [Column("last_name")] // Specify the database column name
         public string LastName { get; set; }
 
         /// <summary>
         /// Gets or sets the email address of the account owner.
         /// </summary>
-        [Column("Email")] // Specify the database column name
+        [Column("email")] // Specify the database column name
         public string Email { get; set; }
 
         /// <summary>

@@ -13,7 +13,7 @@ public static class ModelBuilders
             FirstName = reader.GetString(1),
             LastName = reader.GetString(2),
             CurrencyCode = reader.GetString(3),
-            Total = reader.GetDecimal(4),
+            Total = (double)reader.GetDecimal(4),
         };
     }
 

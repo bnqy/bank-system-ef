@@ -149,7 +149,7 @@ public class StandardAccount : BankAccount
     /// </summary>
     /// <param name="amount">The amount deposited.</param>
     /// <returns>The bonus points earned.</returns>
-    public override int CalculateDepositRewardPoints(decimal amount)
+    protected override int CalculateDepositRewardPoints(decimal amount)
     {
         // Calculate deposit reward points based on current balance.
         return (int)Math.Max(Math.Floor(Balance / StandardBalanceCostPerPoint), 0);
@@ -160,7 +160,7 @@ public class StandardAccount : BankAccount
     /// </summary>
     /// <param name="amount">The amount withdrawn.</param>
     /// <returns>The bonus points earned.</returns>
-    public override int CalculateWithdrawRewardPoints(decimal amount)
+    protected override int CalculateWithdrawRewardPoints(decimal amount)
     {
         // Calculate withdrawal reward points based on current balance.
         return (int)Math.Max(Math.Floor(Balance / StandardBalanceCostPerPoint), 0);
