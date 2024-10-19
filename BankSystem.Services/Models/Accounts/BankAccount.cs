@@ -41,7 +41,9 @@ public abstract class BankAccount
     /// <summary>
     /// Stores all operations performed on the account.
     /// </summary>
-    protected List<AccountCashOperation> Operations { get; } = new List<AccountCashOperation>();
+#pragma warning disable CA1002 // Do not expose generic lists
+    protected List<AccountCashOperation> Operations { get; } = [];
+#pragma warning restore CA1002 // Do not expose generic lists
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BankAccount"/> class with the specified details.
@@ -51,11 +53,13 @@ public abstract class BankAccount
     /// <param name="uniqueNumberGenerator">An object that generates unique account numbers.</param>
     protected BankAccount(AccountOwner owner, string currencyCode, IUniqueNumberGenerator uniqueNumberGenerator)
     {
-        AccountOwner = owner ?? throw new ArgumentNullException(nameof(owner));
-        CurrencyCode = currencyCode ?? throw new ArgumentNullException(nameof(currencyCode));
-        Number = uniqueNumberGenerator.Generate();
-        Balance = 0m;
-        BonusPoints = 0;
+        this.AccountOwner = owner ?? throw new ArgumentNullException(nameof(owner));
+        this.CurrencyCode = currencyCode ?? throw new ArgumentNullException(nameof(currencyCode));
+#pragma warning disable CA1062 // Validate arguments of public methods
+        this.Number = uniqueNumberGenerator.Generate();
+#pragma warning restore CA1062 // Validate arguments of public methods
+        this.Balance = 0m;
+        this.BonusPoints = 0;
     }
 
     /// <summary>
@@ -66,11 +70,13 @@ public abstract class BankAccount
     /// <param name="numberGenerator">A function that generates unique account numbers.</param>
     protected BankAccount(AccountOwner owner, string currencyCode, Func<string> numberGenerator)
     {
-        AccountOwner = owner ?? throw new ArgumentNullException(nameof(owner));
-        CurrencyCode = currencyCode ?? throw new ArgumentNullException(nameof(currencyCode));
-        Number = numberGenerator();
-        Balance = 0m;
-        BonusPoints = 0;
+        this.AccountOwner = owner ?? throw new ArgumentNullException(nameof(owner));
+        this.CurrencyCode = currencyCode ?? throw new ArgumentNullException(nameof(currencyCode));
+#pragma warning disable CA1062 // Validate arguments of public methods
+        this.Number = numberGenerator();
+#pragma warning restore CA1062 // Validate arguments of public methods
+        this.Balance = 0m;
+        this.BonusPoints = 0;
     }
 
     /// <summary>
@@ -83,7 +89,7 @@ public abstract class BankAccount
     protected BankAccount(AccountOwner owner, string currencyCode, IUniqueNumberGenerator uniqueNumberGenerator, decimal initialBalance)
         : this(owner, currencyCode, uniqueNumberGenerator)
     {
-        Deposit(initialBalance, DateTime.Now, "Hello Epam, pls hire me");
+        this.Deposit(initialBalance, DateTime.Now, "Hello Epam, pls hire me");
     }
 
     /// <summary>
@@ -96,16 +102,20 @@ public abstract class BankAccount
     protected BankAccount(AccountOwner owner, string currencyCode, Func<string> numberGenerator, decimal initialBalance)
         : this(owner, currencyCode, numberGenerator)
     {
-        Deposit(initialBalance, DateTime.Now, "Hello Epam, pls hire me");
+        this.Deposit(initialBalance, DateTime.Now, "Hello Epam, pls hire me");
     }
 
     /// <summary>
     /// Returns all operations performed on the account.
     /// </summary>
     /// <returns>A list of all cash operations.</returns>
+#pragma warning disable CA1002 // Do not expose generic lists
+#pragma warning disable CA1024 // Use properties where appropriate
     public List<AccountCashOperation> GetAllOperations()
+#pragma warning restore CA1024 // Use properties where appropriate
+#pragma warning restore CA1002 // Do not expose generic lists
     {
-        return Operations;
+        return this.Operations;
     }
 
     /// <summary>
@@ -139,16 +149,16 @@ public abstract class BankAccount
         }
 
         // Update the balance
-        Balance += amount;
+        this.Balance += amount;
 
         // Create a new cash operation
         var operation = new AccountCashOperation(amount, dateTime, note);
 
         // Add the operation to the operations list
-        Operations.Add(operation);
+        this.Operations.Add(operation);
 
         // Calculate bonus points (make sure this method is public/protected)
-        BonusPoints += CalculateDepositRewardPoints(amount);
+        this.BonusPoints += this.CalculateDepositRewardPoints(amount);
     }
     /// <summary>
     /// Withdraws the specified amount from the account.
@@ -162,22 +172,22 @@ public abstract class BankAccount
         }
 
         // Check if there are sufficient funds (considering overdraft)
-        if (Balance + Overdraft < amount)
+        if (this.Balance + this.Overdraft < amount)
         {
             throw new InvalidOperationException("Insufficient funds for withdrawal.");
         }
 
         // Update the balance
-        Balance -= amount;
+        this.Balance -= amount;
 
         // Create a new cash operation
         var operation = new AccountCashOperation(-amount, dateTime, note);
 
         // Add the operation to the operations list
-        Operations.Add(operation);
+        this.Operations.Add(operation);
 
         // Optionally calculate bonus points
-        BonusPoints += CalculateWithdrawRewardPoints(amount);
+        this.BonusPoints += this.CalculateWithdrawRewardPoints(amount);
     }
 
     /// <summary>

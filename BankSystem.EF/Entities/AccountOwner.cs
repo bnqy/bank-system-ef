@@ -120,7 +120,6 @@ public class AccountOwner
 */
 
 
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -160,6 +159,8 @@ namespace BankSystem.EF.Entities
         /// <summary>
         /// Navigation property to the list of bank accounts owned by the account owner.
         /// </summary>
-        public virtual List<BankAccount> BankAccounts { get; set; } = new List<BankAccount>(); // Initialize the list to avoid null references
+#pragma warning disable CA1002 // Do not expose generic lists
+        public virtual List<BankAccount> BankAccounts { get; set; } = []; // Initialize the list to avoid null references
+#pragma warning restore CA1002 // Do not expose generic lists
     }
 }

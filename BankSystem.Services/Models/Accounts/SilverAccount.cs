@@ -49,9 +49,6 @@ public class SilverAccount : BankAccount
 
 
 using BankSystem.Services.Generators;
-using BankSystem.Services.Models.Accounts;
-
-using BankSystem.Services.Models;
 
 namespace BankSystem.Services.Models.Accounts;
 
@@ -114,7 +111,7 @@ public class SilverAccount : BankAccount
     /// <summary>
     /// Gets the overdraft limit for the account.
     /// </summary>
-    public override decimal Overdraft => 2 * BonusPoints; // Overdraft equals to 2 * BonusPoints for SilverAccount.
+    public override decimal Overdraft => 2 * this.BonusPoints; // Overdraft equals to 2 * BonusPoints for SilverAccount.
 
     /// <summary>
     /// Calculates reward points earned on deposit based on the account balance and deposit amount.
@@ -124,7 +121,7 @@ public class SilverAccount : BankAccount
     protected override int CalculateDepositRewardPoints(decimal amount)
     {
         // Calculate deposit reward points based on current balance and deposit amount.
-        return (int)Math.Max(Math.Floor((Balance / SilverBalanceCostPerPoint) + (amount / SilverDepositCostPerPoint)), 0);
+        return (int)Math.Max(Math.Floor((this.Balance / SilverBalanceCostPerPoint) + (amount / SilverDepositCostPerPoint)), 0);
     }
 
     /// <summary>
@@ -135,6 +132,6 @@ public class SilverAccount : BankAccount
     protected override int CalculateWithdrawRewardPoints(decimal amount)
     {
         // Calculate withdrawal reward points based on current balance and withdrawal amount.
-        return (int)Math.Max(Math.Floor((Balance / SilverBalanceCostPerPoint) + (amount / SilverWithdrawCostPerPoint)), 0);
+        return (int)Math.Max(Math.Floor((this.Balance / SilverBalanceCostPerPoint) + (amount / SilverWithdrawCostPerPoint)), 0);
     }
 }

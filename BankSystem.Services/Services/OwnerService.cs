@@ -37,11 +37,11 @@ namespace BankSystem.Services.Services;
 public class OwnerService : IDisposable
 {
     private readonly BankContext _context;
-    private bool _disposed = false; // Track whether Dispose has been called
+    private bool _disposed; // Track whether Dispose has been called
 
     public OwnerService(BankContext context)
     {
-        _context = context;
+        this._context = context;
     }
 
     /// <summary>
@@ -66,49 +66,51 @@ public class OwnerService : IDisposable
     }*/
     public IReadOnlyList<AccountOwnerTotalBalanceModel> GetAccountOwnersTotalBalance()
     {
-        return _context.AccountOwners
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+        return this._context.AccountOwners
             .Select(owner => new AccountOwnerTotalBalanceModel
             {
                 AccountOwnerId = owner.Id,
                 FirstName = owner.FirstName,
                 LastName = owner.LastName,
                 CurrencyCode = owner.BankAccounts.FirstOrDefault().CurrencyCode.CurrenciesCode,
-                Total = _context.BankAccounts
+                Total = this._context.BankAccounts
                     .Where(account => account.AccountOwnerId == owner.Id)
                     .Sum(account => (double)account.Balance) // Convert to double here
             })
             .OrderByDescending(x => x.Total)
             .ToList()
             .AsReadOnly();
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
     }
 
 
     // Implement IDisposable.
     public void Dispose()
     {
-        Dispose(true);
+        this.Dispose(true);
         GC.SuppressFinalize(this);
     }
 
     protected virtual void Dispose(bool disposing)
     {
-        if (!_disposed)
+        if (!this._disposed)
         {
             if (disposing)
             {
                 // Dispose managed resources.
-                _context.Dispose();
+                this._context.Dispose();
             }
 
             // Dispose unmanaged resources here if any.
 
-            _disposed = true;
+            this._disposed = true;
         }
     }
 
     // Destructor (finalizer).
     ~OwnerService()
     {
-        Dispose(false);
+        this.Dispose(false);
     }
 }

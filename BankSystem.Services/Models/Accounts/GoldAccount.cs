@@ -61,7 +61,7 @@ public class GoldAccount : BankAccount
     /// <summary>
     /// Gets the overdraft limit for the account.
     /// </summary>
-    public override decimal Overdraft => 3 * BonusPoints; // Overdraft equals to 3 * BonusPoints for GoldAccount.
+    public override decimal Overdraft => 3 * this.BonusPoints; // Overdraft equals to 3 * BonusPoints for GoldAccount.
 
     /// <summary>
     /// Calculates reward points earned on deposit based on the account balance and deposit amount.
@@ -73,8 +73,7 @@ public class GoldAccount : BankAccount
         // DepositRewardPoints = max( 「(Balance / GoldBalanceCostPerPoint)⌉+ 「(Deposit / GoldDepositCostPerPoint)⌉, 0)
 
         // Calculate deposit reward points based on current balance and deposit amount.
-        return (int)Math.Max(Math.Ceiling((Balance / GoldBalanceCostPerPoint) + (amount / GoldDepositCostPerPoint)), 0);
-       // return (int)(amount * 2);
+        return (int)Math.Max(Math.Ceiling((this.Balance / GoldBalanceCostPerPoint) + (amount / GoldDepositCostPerPoint)), 0);
     }
 
     /// <summary>
@@ -85,7 +84,7 @@ public class GoldAccount : BankAccount
     protected override int CalculateWithdrawRewardPoints(decimal amount)
     {
         // Calculate withdrawal reward points based on current balance and withdrawal amount.
-        return (int)Math.Max(Math.Ceiling((Balance / GoldBalanceCostPerPoint) + (amount / GoldWithdrawCostPerPoint)), 0);
+        return (int)Math.Max(Math.Ceiling((this.Balance / GoldBalanceCostPerPoint) + (amount / GoldWithdrawCostPerPoint)), 0);
         // return (int)(amount * 1);
     }
 }

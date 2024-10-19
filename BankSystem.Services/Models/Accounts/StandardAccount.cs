@@ -80,9 +80,6 @@ CalculateWithdrawRewardPoints(decimal amount) :
 
 
 using BankSystem.Services.Generators;
-using BankSystem.Services.Models.Accounts;
-
-using BankSystem.Services.Models;
 
 namespace BankSystem.Services.Models.Accounts;
 /// <summary>
@@ -152,7 +149,7 @@ public class StandardAccount : BankAccount
     protected override int CalculateDepositRewardPoints(decimal amount)
     {
         // Calculate deposit reward points based on current balance.
-        return (int)Math.Max(Math.Floor(Balance / StandardBalanceCostPerPoint), 0);
+        return (int)Math.Max(Math.Floor(this.Balance / StandardBalanceCostPerPoint), 0);
     }
 
     /// <summary>
@@ -163,6 +160,6 @@ public class StandardAccount : BankAccount
     protected override int CalculateWithdrawRewardPoints(decimal amount)
     {
         // Calculate withdrawal reward points based on current balance.
-        return (int)Math.Max(Math.Floor(Balance / StandardBalanceCostPerPoint), 0);
+        return (int)Math.Max(Math.Floor(this.Balance / StandardBalanceCostPerPoint), 0);
     }
 }
