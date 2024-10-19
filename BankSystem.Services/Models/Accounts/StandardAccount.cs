@@ -78,7 +78,6 @@ CalculateWithdrawRewardPoints(decimal amount) :
 }
 */
 
-
 using BankSystem.Services.Generators;
 
 namespace BankSystem.Services.Models.Accounts;
