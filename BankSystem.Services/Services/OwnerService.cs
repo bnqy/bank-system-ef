@@ -74,11 +74,11 @@ public class OwnerService : IDisposable
                 FirstName = owner.FirstName,
                 LastName = owner.LastName,
                 CurrencyCode = owner.BankAccounts.FirstOrDefault().CurrencyCode.CurrenciesCode,
-                Total = this._context.BankAccounts
+                Total = (decimal)this._context.BankAccounts
                     .Where(account => account.AccountOwnerId == owner.Id)
                     .Sum(account => (double)account.Balance) // Convert to double here
             })
-            .OrderByDescending(x => x.Total)
+            .OrderByDescending(x => (double)x.Total)
             .ToList()
             .AsReadOnly();
 #pragma warning restore CS8602 // Dereference of a possibly null reference.

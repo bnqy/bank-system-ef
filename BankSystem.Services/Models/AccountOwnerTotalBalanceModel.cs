@@ -27,5 +27,5 @@ public class AccountOwnerTotalBalanceModel
     /// <summary>
     /// Gets or sets the total balance of the account owner.
     /// </summary>
-    public double Total { get; set; }
+    public decimal Total { get; set; }
 }
