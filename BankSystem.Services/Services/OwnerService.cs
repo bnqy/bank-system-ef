@@ -29,7 +29,6 @@ namespace BankSystem.Services.Services;
             })
             .OrderByDescending(owner => (double)owner.Total) // Explicit conversion
             .ToList();
-
         return ownersTotalBalance.AsReadOnly();
     }
 }*/
